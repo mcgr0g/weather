@@ -1,4 +1,5 @@
 .idea/
 *.pyc
 local_settings.py
+cron.log
 
