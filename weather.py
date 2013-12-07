@@ -49,6 +49,7 @@ def rozaVetrov(deg):
 
 
 def mail(*args):
+    body = """From: server <%s>\nTo: %s\nSubject: %s\n\n%s""" % (EMAIL_HOST_USER, ", ".join(to), subject, msg_body)
     try:
         RECIPIENT = []
         for item in args:
@@ -111,6 +112,5 @@ d = datetime.now()
 
 if d.time().hour == 7 and d.time().minute == 1:
     msg_body = getForecast()
-    body = """From: server <%s>\nTo: %s\nSubject: %s\n\n%s""" % (EMAIL_HOST_USER, ", ".join(to), subject, msg_body)
     #print venv
     print d.strftime("%d.%m.%y %H:%M:%S"), mail(to)
