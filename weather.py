@@ -95,25 +95,22 @@ def getForecast():
     windSpeed = wind['speed']
 
     message = nowDate + u'\nЗа бортом: ' + nowT + u'C\nТмакс=' + highT + u'\nТмин=' + lowT + u'\nВетер=' + windSpeed + u' км/ч\nДует: ' + windDirection
-
     message_data = encode(message, "utf-8")
-
     return message_data
 
 
 msg_body = 'debugdata'
-msg_body = getForecast()
-
 subject = 'weather'
-body = """From: server <%s>\nTo: %s\nSubject: %s\n\n%s""" % (EMAIL_HOST_USER, ", ".join(to), subject, msg_body)
-
-d = datetime.now()
 
 if hasattr(sys, 'real_prefix'):
     venv = 'working in venv'
 else:
     venv = 'none venv'
     
+d = datetime.now()
+
 if d.time().hour == 7 and d.time().minute == 1:
+    msg_body = getForecast()
+    body = """From: server <%s>\nTo: %s\nSubject: %s\n\n%s""" % (EMAIL_HOST_USER, ", ".join(to), subject, msg_body)
     #print venv
     print d.strftime("%d.%m.%y %H:%M:%S"), mail(to)
