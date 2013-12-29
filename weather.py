@@ -59,7 +59,9 @@ def mail(*args):
         server.starttls()
         server.ehlo()
         server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
-        server.sendmail(EMAIL_HOST_USER, RECIPIENT, body)
+        for addr in RECIPIENT:
+            print addr
+            server.sendmail(EMAIL_HOST_USER, addr, body)
         server.quit()
         return 'success', RECIPIENT
     except:
@@ -112,5 +114,7 @@ d = datetime.now()
 
 if d.time().hour == 7 and d.time().minute == 1:
     msg_body = getForecast()
-    #print venv
+    # print venv
     print d.strftime("%d.%m.%y %H:%M:%S"), mail(to)
+else:
+    print venv, ' trying to send to ', to
