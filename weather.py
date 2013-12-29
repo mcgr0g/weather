@@ -24,7 +24,6 @@ if isfile(join(CUR_DIR, 'local_settings.py')):
         warnings.warn("Unable import local settings [%s]: %s" % (type(e), e))
         sys.exit(1)
 
-
 def rozaVetrov(deg):
     res = ''
     if 0 <= deg <= 11.25:
@@ -49,19 +48,29 @@ def rozaVetrov(deg):
 
 
 def mail(*args):
-    body = """From: server <%s>\nTo: %s\nSubject: %s\n\n%s""" % (EMAIL_HOST_USER, ", ".join(to), subject, msg_body)
     try:
         RECIPIENT = []
         for item in args:
             RECIPIENT.extend(item)
+
         server = smtplib.SMTP(EMAIL_HOST, EMAIL_PORT)
         server.ehlo()
         server.starttls()
         server.ehlo()
         server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+
         for addr in RECIPIENT:
-            print addr
-            server.sendmail(EMAIL_HOST_USER, addr, body)
+            headers = [
+                "From: " + EMAIL_HOST_USER,
+                "Subject: " + subject,
+                "To: " + addr,
+                "MIME-Version: 1.0",
+                "Content-Type: text/html"
+            ]
+            headers = "\r\n".join(headers)
+            ready_msg = headers + "\r\n\r\n" + msg_body
+            server.sendmail(EMAIL_HOST_USER, addr, ready_msg)
+
         server.quit()
         return 'success', RECIPIENT
     except:
@@ -114,7 +123,6 @@ d = datetime.now()
 
 if d.time().hour == 7 and d.time().minute == 1:
     msg_body = getForecast()
-    # print venv
-    print d.strftime("%d.%m.%y %H:%M:%S"), mail(to)
+    print d.strftime("%d.%m.%y %H:%M:%S"), venv, mail(to)
 else:
-    print venv, ' trying to send to ', to
+    print d.strftime("%d.%m.%y %H:%M:%S"), venv, ' trying to send to ', to
