@@ -133,5 +133,4 @@ if d.time().hour == 7 and d.time().minute == 1:
     mail_body = getForecast()
     print d.strftime("%d.%m.%y %H:%M:%S"), venv, mail(to)
 else:
-    mail_body = getForecast()
-    print d.strftime("%d.%m.%y %H:%M:%S"), venv, ' trying to send to ', mail(to)
+    print d.strftime("%d.%m.%y %H:%M:%S"), venv, ' trying to send to ', to
