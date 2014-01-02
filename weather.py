@@ -7,10 +7,12 @@ from os.path import dirname, abspath, join
 from datetime import datetime
 
 #---private data-------------
-EMAIL_HOST = 'lolhost.ru'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'server@domain.com'
-EMAIL_HOST_PASSWORD = 'easy'
+email_host = 'lolhost.ru'
+email_port = 587
+email_host_user = 'server@domain.COM'
+email_host_password = 'easy'
+mail_hour = 7
+mail_minute = 1
 
 to = ['user1@gmail.com', 'user2@mail.ru']
 #---end private data--------
@@ -129,7 +131,7 @@ else:
     
 d = datetime.now()
 
-if d.time().hour == 7 and d.time().minute == 1:
+if d.time().hour == mail_hour and d.time().minute == mail_minute:
     mail_body = getForecast()
     print d.strftime("%d.%m.%y %H:%M:%S"), venv, mail(to)
 else:
