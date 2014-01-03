@@ -55,15 +55,15 @@ def mail(*args):
         for item in args:
             recipient_list.extend(item)
 
-        server = smtplib.SMTP(EMAIL_HOST, EMAIL_PORT)
+        server = smtplib.SMTP(email_host, email_port)
         server.ehlo()
         server.starttls()
         server.ehlo()
-        server.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+        server.login(email_host_user, email_host_password)
 
         for addr in recipient_list:
             headers_list = [
-                "From: " + EMAIL_HOST_USER,
+                "From: " + email_host_user,
                 "Subject: " + mail_subj,
                 "To: " + addr,
                 "MIME-Version: 1.0",
@@ -71,7 +71,7 @@ def mail(*args):
             ]
             header_str = "\r\n".join(headers_list)
             mail_ready = header_str + "\r\n\r\n" + mail_body
-            server.sendmail(EMAIL_HOST_USER, addr, mail_ready)
+            server.sendmail(email_host_user, addr, mail_ready)
 
         server.quit()
         return 'success', recipient_list
@@ -81,14 +81,10 @@ def mail(*args):
 
 
 yahooUrl = 'http://query.yahooapis.com/v1/public/yql'
-query = ''
-yahooParams = {'q': query, 'format': "json"}
-
 yahooWOEID = '24553418'  # it s Novosibirsk WOEID, for another city visit http://location.yahoo.com/locationmgt/"
 query = 'SELECT * FROM weather.forecast WHERE woeid="%s" and u="c"' % yahooWOEID
-yahooParams['q'] = query
+yahooParams = {'q': query, 'format': "json"}
 params = urllib.urlencode(yahooParams)
-
 
 def getForecast():
     yahooResponse = urllib.urlopen(yahooUrl + '?' + params)
