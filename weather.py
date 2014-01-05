@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf8 -*-
-import smtplib, urllib, json, sys
+import smtplib, urllib, json, sys, warnings
 from codecs import encode
 from genericpath import isfile
 from os.path import dirname, abspath, join
@@ -17,13 +17,19 @@ mail_minute = 1
 to = ['user1@gmail.com', 'user2@mail.ru']
 #---end private data--------
 
-CUR_DIR = dirname(abspath(__file__))
-if isfile(join(CUR_DIR, 'local_settings.py')):
+cur_dir = dirname(abspath(__file__))
+if isfile(join(cur_dir, 'settings_local.py')):
     try:
-        from local_settings import *
+        from settings_local import *
     except Exception, e:
-        import os, warnings
         warnings.warn("Unable import local settings [%s]: %s" % (type(e), e))
+        sys.exit(1)
+
+if isfile(join(cur_dir, 'settings_production.py')):
+    try:
+        from settings_production import *
+    except Exception, e:
+        warnings.warn("Unable import production settings [%s]: %s" % (type(e), e))
         sys.exit(1)
 
 def rozaVetrov(deg):
