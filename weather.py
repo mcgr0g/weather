@@ -169,7 +169,7 @@ def sandbox():
 
 
 NOW = datetime.now()
-STATS = NOW.strftime("%NOW.%m.%y %H:%M:%S") + sandbox()
+STATS = NOW.strftime("%d.%m.%y %H:%M:%S") + ' ' + sandbox()
 
 if NOW.time().hour == MAIL_H and NOW.time().minute == MAIL_M:
     MAIL_BODY = convert_forecast()
